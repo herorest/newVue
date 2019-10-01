@@ -7,12 +7,11 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
       redirect: '/ebook'
     },
     {
       path: '/ebook',
-      component:  () => import('./views/ebook/index.vue'),
+      component: () => import('./views/ebook/index.vue'),
       children: [
         {
           path: ':fileName',
