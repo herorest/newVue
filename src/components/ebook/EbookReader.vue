@@ -1,6 +1,7 @@
 <template>
   <div class="ebook-reader">
     <div id="read"></div>
+    <div class="mask" @touchstart="touchstart" @touchend="touchend"></div>
   </div>
 </template>
 
@@ -13,43 +14,40 @@
       ...mapGetters(['fileName'])
     },
     methods: {
+      touchstart(event){
+        this.touchStartX = event.changedTouches[0].clientX
+        this.touchStartTime = event.timeStamp
+      },
+      touchend(event){
+        const offsetX = event.changedTouches[0].clientX - this.touchStartX
+        const time = event.timeStamp - this.touchStartTime
+        if(time < 500 && offsetX > 40){
+          this.prevPage()
+        }else if(time < 500 && offsetX < -40){
+          this.nextPage()
+        }else{
+          this.showTitleAndMenu()
+        }
+        event.preventDefault()
+        event.stopPropagation()
+      },
       initEpub(){
         let url = '/' + this.fileName + '.epub'
         this.book = new Epub(url)
-        this.showBook = this.book.renderTo('read', {
+        this.rendition = this.book.renderTo('read', {
           width: innerWidth,
           height: innerHeight,
           method: 'default'
         })
-        this.showBook.display()
-
-        this.showBook.on('touchstart', event => {
-          this.touchStartX = event.changedTouches[0].clientX
-          this.touchStartTime = event.timeStamp
-        })
-
-        this.showBook.on('touchend', event => {
-          const offsetX = event.changedTouches[0].clientX - this.touchStartX
-          const time = event.timeStamp - this.touchStartTime
-          console.log(offsetX, time);
-          if(time < 500 && offsetX > 40){
-            this.prevPage()
-          }else if(time < 500 && offsetX < -40){
-            this.nextPage()
-          }else{
-            this.showTitleAndMenu()
-          }
-          event.preventDefault()
-          event.stopPropagation()
-        })
+        this.rendition.display()
       },
 
       prevPage(){
-        this.showBook && this.showBook.prev()
+        this.rendition && this.rendition.prev()
       },
 
       nextPage(){
-        this.showBook && this.showBook.next()
+        this.rendition && this.rendition.next()
       }
     },
     mounted(){
@@ -65,3 +63,13 @@
     }
   }
 </script>
+
+<style>
+.mask{
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  left:0;
+}
+</style>
