@@ -16,22 +16,27 @@
         </div>
       </div>
     </transition>
-    <ebook-setting-font></ebook-setting-font>
+    <!-- <ebook-setting-font></ebook-setting-font>
     <ebook-setting-font-popup></ebook-setting-font-popup>
     <ebook-setting-theme></ebook-setting-theme>
     <ebook-setting-progess></ebook-setting-progess>
-    <ebook-slide></ebook-slide>
+    <ebook-slide></ebook-slide> -->
   </div>
 </template>
 
 
 <script>
+  import {mapGetters} from 'vuex'
+
   export default {
-   methods:{
-    showSetting(){
-      
+    computed: {
+      ...mapGetters(['menuVisible'])
+    },
+    methods:{
+      showSetting(){
+        
+      }
     }
-   }
   }
 </script>
 

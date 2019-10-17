@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-down">
-    <div class="title-wrapper">
+    <div class="title-wrapper" v-show="menuVisible">
       <div class="left">
         <span class="icon-back"></span>
       </div>
@@ -20,7 +20,11 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+  import {ebookMixin} from '../../utils/mixin'
+  
   export default {
+    mixins: [ebookMixin],
   }
 </script>
 
@@ -34,12 +38,12 @@
     z-index: 210;
     display: flex;
     width: 100%;
-    height: px2rem(60);
+    height: px2rem(48);
     background: white;
     box-shadow: 0 px2rem(8) px2rem(8) rgba(0, 0, 0, .15);
-    font-size: px2rem(24);
+    font-size: px2rem(20);
     .left {
-      flex: 0 0 px2rem(60);
+      flex: 0 0 px2rem(48);
       @include left;
       margin-left: px2rem(15);
     }

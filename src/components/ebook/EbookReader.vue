@@ -7,12 +7,14 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import {ebookMixin} from '../../utils/mixin'
   import Epub from 'epubjs'
   global.ePub = Epub
   export default {
-    computed: {
-      ...mapGetters(['fileName'])
-    },
+    // computed: {
+    //   ...mapGetters(['fileName', 'menuVisible'])
+    // },
+    mixins: [ebookMixin],
     methods: {
       touchstart(event){
         this.touchStartX = event.changedTouches[0].clientX
@@ -48,13 +50,17 @@
 
       nextPage(){
         this.rendition && this.rendition.next()
+      },
+
+      showTitleAndMenu(){
+        this.setMenuVisible(!this.menuVisible);
       }
     },
     mounted(){
       let fileName = this.$route.params.fileName
       if(fileName){
         fileName = fileName.split('|').join('/')
-        this.$store.dispatch('setFileName', fileName).then(() => {
+        this.setFileName(fileName).then(() => {
           this.initEpub()
         })
 

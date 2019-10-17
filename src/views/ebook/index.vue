@@ -2,6 +2,7 @@
   <div class="ebook">
     <ebook-title></ebook-title>
     <ebook-reader></ebook-reader>
+    <ebook-Menu></ebook-Menu>
   </div>
 </template>
 
